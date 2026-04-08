@@ -6,8 +6,8 @@ A machine learning API that predicts passenger survival on the Titanic using a R
 
 ### Run the API locally
 
-docker pull yourusername/titanic-survival-api:latest
-docker run -p 8000:8000 yourusername/titanic-survival-api:latest
+docker pull thetechlearner/titanic-survival-api:latest
+docker run -p 8000:8000 thetechlearner/titanic-survival-api:latest
 
 
 ### Use the API
@@ -33,7 +33,7 @@ curl -X POST "http://localhost:8000/predict" \
 
 {
   "survived": 1,
-  "survival_probability": 0.95,
+  "survival_probability": 0.9152,
   "prediction_confidence": "High",
   "passenger_profile": {
     "class": "Class 1",
@@ -49,9 +49,10 @@ curl -X POST "http://localhost:8000/predict" \
 
 ## Model Performance
 
-- Algorithm: Random Forest Classifier
-- Accuracy: 85%+ on test data
-- Features: Passenger class, sex, age, family size, fare, embarkation port
+- Algorithm: Random Forest Classifier (100 estimators, max_depth=10)
+- Accuracy: **81.56%** on held-out test set (712 train / 179 test)
+- Top Features: Sex (28.1%), Fare (17.1%), Title (12.7%), Age (12.3%), Pclass (9.2%)
+- Engineered Features: FamilySize, IsAlone, Title, AgeGroup, FareGroup
 
 ## API Endpoints
 
