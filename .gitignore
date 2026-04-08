@@ -1,0 +1,9 @@
+.DS_Store
+**/.DS_Store
+serving/models/
+training/data/
+training/models/
+__pycache__/
+*.pyc
+*.pkl
+*.joblib
