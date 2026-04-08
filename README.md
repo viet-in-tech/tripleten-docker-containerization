@@ -1,36 +1,41 @@
 # Titanic Survival Prediction API
 
-A machine learning API that predicts passenger survival on the Titanic using a Random Forest classifier.
+A machine learning API that predicts passenger survival on the Titanic using a Random Forest classifier. Trained inside Docker, served via FastAPI, and published to Docker Hub.
+
+**Portfolio write-up:** [From Model to Container: Deploying a Titanic Survival API on Docker Hub](https://viet-in-tech.github.io/titanic-docker.html)
+
+---
 
 ## Quick Start
 
 ### Run the API locally
 
+```bash
 docker pull thetechlearner/titanic-survival-api:latest
 docker run -p 8000:8000 thetechlearner/titanic-survival-api:latest
-
-
-### Use the API
+```
 
 Visit http://localhost:8000/docs for interactive documentation.
 
-#### Example prediction:
+### Example prediction
 
+```bash
 curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{
        "Pclass": 1,
-       "Sex": "female", 
+       "Sex": "female",
        "Age": 30.0,
        "SibSp": 0,
        "Parch": 0,
        "Fare": 50.0,
        "Embarked": "S"
      }'
+```
 
+**Response:**
 
-#### Response:
-
+```json
 {
   "survived": 1,
   "survival_probability": 0.9152,
@@ -45,7 +50,9 @@ curl -X POST "http://localhost:8000/predict" \
     "embarkation_port": "Southampton"
   }
 }
+```
 
+---
 
 ## Model Performance
 
@@ -54,41 +61,58 @@ curl -X POST "http://localhost:8000/predict" \
 - Top Features: Sex (28.1%), Fare (17.1%), Title (12.7%), Age (12.3%), Pclass (9.2%)
 - Engineered Features: FamilySize, IsAlone, Title, AgeGroup, FareGroup
 
+---
+
 ## API Endpoints
 
--  GET /               - Health check
--  POST /predict       - Single passenger prediction
--  POST /predict-batch - Multiple passenger predictions
--  GET /model-info     - Model metadata
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Health check |
+| `/predict` | POST | Single passenger prediction |
+| `/predict-batch` | POST | Multiple passenger predictions |
+| `/model-info` | GET | Model metadata |
 
 ## Input Parameters
 
-| Parameter | Type  |       Description            |  Example |
-|-----------|-------|------------------------------|----------|
-| Pclass    |  int  | Passenger class (1, 2, 3)    | 1        |
-| Sex       |  str  | Gender ('male', 'female')    | 'female' |
-| Age       | float | Age in years                 | 30.0     |
-| SibSp     |  int  | Siblings/spouses aboard      | 0        |
-| Parch     |  int  | Parents/children aboard      | 0        |
-| Fare      | float | Ticket fare                  | 50.0     |
-| Embarked  |  str  | Port ('S', 'C', 'Q')         | 'S'      |
+| Parameter | Type | Description | Example |
+|-----------|------|-------------|---------|
+| Pclass | int | Passenger class (1, 2, 3) | 1 |
+| Sex | str | Gender ('male', 'female') | 'female' |
+| Age | float | Age in years | 30.0 |
+| SibSp | int | Siblings/spouses aboard | 0 |
+| Parch | int | Parents/children aboard | 0 |
+| Fare | float | Ticket fare | 50.0 |
+| Embarked | str | Port ('S', 'C', 'Q') | 'S' |
+
+---
 
 ## Development
 
 ### Training Environment
 
+```bash
 cd training
 docker build -t titanic-training .
 docker run -p 8888:8888 -v "$(pwd):/home/jovyan/work" titanic-training
-
+```
 
 ### Local Development
 
+```bash
 cd serving
 pip install -r requirements.txt
 python app.py
+```
 
+---
 
-## License
+## Tech Stack
 
-This project is for educational purposes.
+- Python · FastAPI · Pydantic
+- scikit-learn (RandomForestClassifier)
+- Docker · Docker Hub
+- Jupyter Notebook (training)
+
+---
+
+*For educational purposes.*
